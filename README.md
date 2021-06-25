@@ -7,7 +7,7 @@ Post Place is a social media application where users can make posts and interact
 1. Fork or clone the github repo and open up the folder in the CLI
 2. Install all dependencies (Bring up 2 terminals, cd into client on one and server on the other, run npm i in both.)
 3. Hook up an empty MongoDB collection to the server and set a JWT secret, setting them to CONNECTION_URL and JWT_SECRET in an .env file in the server folder.
-4. Connect your server to the clientside via api/index.js, app/store.js and the proxy in package.json in the client and index.js in server (Set socket.io connection to port 3000.)
+4. Connect your server to the clientside via .env files in client / server folders.
 - Optionally connect a google OAuth clientID to the front end if it isn't too much trouble and/or you want the google login to work.
 5. Run the client and server locally via the npm start command.
 6. Navigate to the URL you chose for the clientside and the app should be running.
