@@ -60,8 +60,8 @@ const Auth = () => {
     return (
         <Container component='main' disableGutters maxWidth='xs' >
             <Paper className={classes.paper} elevation={3}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
+                <Avatar className={classes.avatar} children={(<LockOutlinedIcon className={classes.signIn}/>)}>
+                    
                 </Avatar>
                 <Typography variant='h5'>
                     {isSignUp ? 'Sign Up' : 'Sign In'}

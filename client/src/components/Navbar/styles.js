@@ -48,6 +48,7 @@ export default makeStyles((theme) => ({
   userName: {
     display: 'flex',
     alignItems: 'center',
+    cursor:'pointer',
   },
   brandContainer: {
     display: 'flex',
@@ -55,7 +56,8 @@ export default makeStyles((theme) => ({
     textDecoration: 'none',
   },
   purple: {
-    color: theme.palette.getContrastText(deepPurple[500]),
-    backgroundColor: deepPurple[500],
+    color: theme.palette.getContrastText('#673ab7'),
+    backgroundColor: '#673ab7',
+    cursor:'pointer',
   },
 }));

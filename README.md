@@ -5,8 +5,9 @@ Post Place is a social media application where users can make posts and interact
 ## How to run the app
 
 1. Fork or clone the github repo and open up the folder in the CLI
-2. Install all dependencies (Bring up 2 terminals, cd into client on one and server on the other, run npm i in both.)
+2. Install all dependencies (Bring up 2 terminals, cd into client on one and server on the other, run 'npm i' in both.)
 3. Hook up an empty MongoDB collection to the server and set a JWT secret, setting them to CONNECTION_URL and JWT_SECRET in an .env file in the server folder.
+- If you'd like to seed the database, run 'node dataSeeding' in the server directory.
 4. Connect your server to the clientside via .env files in client / server folders.
 - Optionally connect a google OAuth clientID to the front end if it isn't too much trouble and/or you want the google login to work.
 5. Run the client and server locally via the npm start command.
@@ -14,12 +15,24 @@ Post Place is a social media application where users can make posts and interact
 
 ## Features
 
-1. a user can sign up for an account, sign in, sign in via google, or use a guest account.
-2. A signed-in user can make, edit, delete, or like posts.
-3. A signed-in user can make, delete or like comments tied to a specific post by visiting its page.
-4. All actions where applicable will be displayed in real time to all users.
-5. Actions are saved to a database so data is persistent across visits.
-6. The site has different views dependent on window size and looks normal / functions properly down to 250px width.
+1. A user can sign up for an account, sign in, sign in via google, or use a guest account.
+2. A user can search for posts fitting their criteria.
+3. A user can visit registered users' pages where they can see an activity feed.
+4. A signed-in user can make, edit, delete, or like posts.
+5. A signed-in user can make, delete or like comments tied to a specific post by visiting its page.
+6. All actions where applicable will be displayed in real time to all users.
+7. Actions are saved to a database so data is persistent across visits.
+8. The site has different views dependent on window size and looks normal / functions properly down to 250px width.
+
+### How to search for posts
+
+1. You can search by title or by tags or both on the home page. If searching by title, simply type in the phrase you'd like to search by into the 'Search Posts' input area and then press the SEARCH button.
+2. If searching by tags or by tags and title, type in a tag and then press enter. It will appear box as a chip, which you can delete if you want. You can repeat this process to search for multiple tags at once. To initiate the search, press the SEARCH button.
+
+### How to visit an activity feed
+
+1. Visit a post's page.
+2. You can click on the creator's name or the commentors' names to visit their activity feeds.
 
 ### How to interact with posts
 
@@ -47,7 +60,7 @@ Post Place is a social media application where users can make posts and interact
 ## Future features
 - Proper XSS protection. (If you visit the live version please don't blow my site up.)
 - Other social media actions like sharing/reposting others' posts.
-- A user profile page where one can see all the posts a specific user has made and maybe their comments on other posts.
+- Special features if visiting own activity feed page like deletion of all posts / account, quickly edit posts and comments.
 - Proper account recovery stuff and email validation.
 
 ## Dependencies
@@ -64,6 +77,7 @@ Post Place is a social media application where users can make posts and interact
 - jwt / jwt-decode
 - react-file-base64
 - react-google-login
+- faker
 - cors
 - bcrypt
 - dotenv
