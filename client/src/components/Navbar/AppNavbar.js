@@ -5,20 +5,34 @@ import Typography from '@material-ui/core/Typography'
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary'
 import useStyles from './styles'
 import decode from 'jwt-decode'
-import {Link, useHistory} from 'react-router-dom'
+import {Link, useHistory, useLocation, matchPath} from 'react-router-dom'
 import { Avatar, Button } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { auth, authLogout, selectProfile, selectProfileExists } from '../../features/auth/authSlice'
-import { socketAddPost, socketDeletePost, socketUpdatePost, socketAddComment, socketDeleteComment, socketUpdateComment } from '../../features/posts/postsSlice'
+import { socketAddPost, socketDeletePost, socketUpdatePost, socketAddComment, socketDeleteComment, socketUpdateComment, selectOnPostDetails, updateOnPostDetails } from '../../features/posts/postsSlice'
 import { socket } from '../../app/socket'
 
 const AppNavbar = () => {
+    const currentLoc = useLocation()
     const profile = useSelector(selectProfile)
     const exists = useSelector(selectProfileExists)
+    const onPostDetails = useSelector(selectOnPostDetails)
     const history = useHistory()
     const classes = useStyles()
     const [user, setUser] = React.useState(profile)
     const dispatch = useDispatch();
+    React.useEffect(()=>{
+        console.log(currentLoc.pathname, '/posts/:id', matchPath(currentLoc.pathname, '/posts/:id'), matchPath(currentLoc.pathname, '/posts/:id')?.isExact )
+        if ( matchPath(currentLoc.pathname, '/posts/:id')?.isExact !== onPostDetails ) {
+            if(onPostDetails === ''){
+                console.log('update the value because first time on site', matchPath(currentLoc.pathname, '/posts/:id')?.isExact, onPostDetails)
+                dispatch(updateOnPostDetails(matchPath(currentLoc.pathname, '/posts/:id') !== null))
+            } else if( matchPath(currentLoc.pathname, '/posts/:id')?.isExact !== onPostDetails ){
+                console.log('update the state because the current page is different than the stored value', matchPath(currentLoc.pathname, '/posts/:id')?.isExact, onPostDetails)
+                dispatch(updateOnPostDetails(!onPostDetails))
+            }
+        }
+    },[currentLoc])
     React.useEffect(()=>{
         const token = profile.token
 
@@ -86,8 +100,8 @@ const AppNavbar = () => {
             <Toolbar className={classes.toolbar}>
                 {user.result ? (
                     <div className={classes.profile}>
-                        <Avatar className={classes.purple} alt={user.result.name} src={user.result.imageURL} onClick={() => history.push(`/users/${user.result._id}`)} >{user.result.name.charAt(0)}</Avatar>
-                        <Typography className={classes.userName} variant='h6' onClick={() => history.push(`/users/${user.result._id}`)} >{user.result.name}</Typography>
+                        <Avatar className={classes.purple} alt={user.result.name} src={user.result.imageURL || ''} onClick={() => history.push(`/users/${user.result.googleId || user.result._id}`)} >{user.result.name.charAt(0)}</Avatar>
+                        <Typography className={classes.userName} variant='h6' onClick={() => history.push(`/users/${user.result.googleId || user.result._id}`)} >{user.result.name}</Typography>
                         <Button variant='contained' className={classes.logout} color='secondary' onClick={logout}>Logout</Button>
                     </div>
                 ) : (

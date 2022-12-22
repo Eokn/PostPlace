@@ -11,7 +11,7 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-//API calls to our server.
+//API calls to the server.
 export const fetchPosts = (page) => API.get(`/posts?page=${page}`)
 
 export const fetchPostReco = (id) => API.get(`/posts/${id}`)
@@ -34,7 +34,13 @@ export const likeComment = (belongsTo, id) => API.patch(`/posts/${belongsTo}/com
 
 export const deleteComment = (belongsTo, id) => API.delete(`/posts/${belongsTo}/comments/${id}`)
 
+export const deleteContent = (items) => API.delete(`/posts/deleteAllContent`, {data: items})
+
+export const deleteUserAccount = (items) => API.delete(`/posts/deleteAccount`, {data: items})
+
 
 export const apiSignIn = (formData) => API.post('/users/signin', formData)
 
 export const apiSignUp = (formData) => API.post('/users/signup', formData)
+
+export const apiGoogleSignUp = ({ name, email }) => API.post('/users/googlesignup', { name, email })

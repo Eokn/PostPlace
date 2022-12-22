@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice, createSelector } from '@reduxjs/toolkit';
-import { apiSignUp, apiSignIn } from '../../api/index.js';
+import { apiSignUp, apiSignIn, apiGoogleSignUp } from '../../api/index.js';
 
 const initialState = {
   profile: {},
   status: 'idle',
 };
 
-// Thunks for signin/signup
+// Thunks for signin/signup/googlesignup
 
 export const signUpAuth = createAsyncThunk(
   'auth/signNewUp',
@@ -22,6 +22,13 @@ export const signInAuth = createAsyncThunk(
   async({formData,history}) => {
     const { data } = await apiSignIn(formData)
     history.goBack();
+    return data
+  }
+)
+export const googleSignUp = createAsyncThunk(
+  'auth/googleSignUp',
+  async({name, email}) => {
+    const { data } = await apiGoogleSignUp({name,email})
     return data
   }
 )
@@ -48,6 +55,9 @@ export const authSlice = createSlice({
       .addCase(signInAuth.fulfilled, (state, action) => {
         localStorage.setItem('profile', JSON.stringify({ ...action?.payload }))
       state.profile = action?.payload
+      })
+      .addCase(googleSignUp.fulfilled, (state, action) => {
+        console.log(action.payload)
       })
 
       

@@ -70,7 +70,7 @@ const Home = () => {
     return (
         <Grow in>
             <Container className={classes.appContainer} maxWidth='xl'>
-              <Grid container justify='space-between' alignItems='stretch' spacing={2} className={`${!signedIn ? classes.notSignedIn : ''} ${classes.gridContainer}`} >
+              <Grid container justifyContent='space-between' alignItems='stretch' spacing={2} className={`${!signedIn ? classes.notSignedIn : ''} ${classes.gridContainer}`} >
                 {!signedIn && (<Grid item><AppBar position='static' color='inherit' className={classes.appBarSearch} >
                     <TextField name='search' className={classes.titleCorrect} InputLabelProps={{classes:{formControl: classes.formPos}}}  color='secondary' dense variant='outlined' label='Search Posts' value={search} onKeyPress={handleKeyPress} onChange={(e)=>{setSearch(e.target.value)}} />
                     <ChipInput value={tags} color='secondary' dense onAdd={handleAdd} onDelete={handleDelete} className={classes.chipInput} label='Search By Tags' variant='outlined' />

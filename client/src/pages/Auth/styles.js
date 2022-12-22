@@ -22,7 +22,7 @@ export default makeStyles((theme) => ({
     color:'black',
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(3),
   },
   submit: {

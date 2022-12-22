@@ -1,8 +1,10 @@
 import { createAsyncThunk, createSlice, createSelector } from '@reduxjs/toolkit';
-import { fetchPosts, createPost, updatePost, deletePost, likePost, fetchPostsBySearch, fetchPostReco, fetchUserInfo, createComment, likeComment, deleteComment } from '../../api';
+import { fetchPosts, createPost, updatePost, deletePost, likePost, fetchPostsBySearch, fetchPostReco, fetchUserInfo, createComment, likeComment, deleteComment, deleteContent, deleteUserAccount } from '../../api';
 import { socket } from '../../app/socket';
+import { authLogout } from '../auth/authSlice';
 
 const initialState = {
+  onPostDetails:'',
   currentPostId:'',
   posts:[],
   comments:[],
@@ -114,7 +116,24 @@ export const deleteOldComment = createAsyncThunk(
     
     const { data } = await deleteComment(belongsTo, id)
     socket.emit('deleteComment', {data,editor})
+    console.log('done with everything just need to send id out owo')
     return id
+  }
+)
+
+export const deleteAllContent = createAsyncThunk(
+  'posts/deleteAllContent',
+  async (items) => {
+    const {data} = await deleteContent(items)
+    return data
+  }
+)
+export const deleteAccount = createAsyncThunk(
+  'posts/deleteAccount',
+  async (items, { dispatch }) => {
+    const {data} = await deleteUserAccount(items)
+    dispatch(authLogout({}))
+    return data
   }
 )
 
@@ -125,13 +144,19 @@ export const postsSlice = createSlice({
     editPost: (state, action) => {
       state.currentPostId = action.payload;
     },
+    updateOnPostDetails: (state, action) => {
+      state.onPostDetails = action.payload
+    },
     socketUpdatePost: (state, action) => {
       if(state.posts.find(x => x._id === action.payload._id) !== undefined) {
         state.posts = state.posts.map(x => x._id === action.payload._id ? action.payload : x )
       }
     },
     socketDeletePost: (state, action) => {
-      state.posts = state.posts.filter(x => x._id !== action.payload._id)
+      if(!state.onPostDetails || (state.onPostDetails && action.payload._id !== state.posts[0]._id)){
+        state.posts = state.posts.filter(x => x._id !== action.payload._id)
+        state.userInfo = state.userInfo.filter(x => x._id !== action.payload._id)
+      }
     },
     socketAddPost: (state, action) => {
       
@@ -150,6 +175,7 @@ export const postsSlice = createSlice({
     },
     socketDeleteComment: (state, action) => {
       state.comments = state.comments.filter(x => x._id !== action.payload._id)
+      state.userInfo = state.userInfo.filter(x => x._id !== action.payload._id)
     },
     socketAddComment: (state, action) => {
       
@@ -187,6 +213,7 @@ export const postsSlice = createSlice({
       })
       .addCase(deleteOldPost.fulfilled, (state,action) => {
         state.posts = state.posts.filter(post => post._id !== action.payload)
+        state.userInfo[0].info = state.userInfo[0].info.filter(post => post._id !== action.payload)
       })
       .addCase(likeOldPost.fulfilled, (state,action) => {
         state.posts = state.posts.map(post => post._id === action.payload._id ? action.payload : post)
@@ -226,14 +253,26 @@ export const postsSlice = createSlice({
         state.comments = state.comments.map(comment => comment._id === action.payload._id ? action.payload : comment)
       })
       .addCase(deleteOldComment.fulfilled, (state,action) => {
+        console.log('so here i am in the addcase section with my data..')
+        console.log(action.payload)
         state.comments = state.comments.filter(comment => comment._id !== action.payload)
+        state.userInfo[0].info = state.userInfo[0].info.filter(comment => comment._id !== action.payload)
+      })
+      .addCase(deleteAllContent.fulfilled, (state,action) => {
+        state.userInfo[0].info = []
+      })
+      .addCase(deleteAccount.fulfilled, (state,action) => {
+        state.userInfo[0].info = []
+        state.userInfo[0].name = 'DELETED'
       })
   },
 });
 
-export const { editPost, socketUpdatePost, socketDeletePost, socketAddPost, socketAddComment, socketUpdateComment, socketDeleteComment } = postsSlice.actions;
+export const { editPost, socketUpdatePost, socketDeletePost, socketAddPost, socketAddComment, socketUpdateComment, socketDeleteComment, updateOnPostDetails } = postsSlice.actions;
 
 //Memoized selectors for various state values.
+
+export const selectOnPostDetails = createSelector(state => state.posts.onPostDetails, result => result)
 
 export const selectCurrentPost = createSelector(state => state.posts.posts, state => state.posts.currentPostId, (posts,currentPost) => currentPost === '' ? false : posts.find(post => post._id === currentPost))
 

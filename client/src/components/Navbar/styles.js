@@ -56,8 +56,7 @@ export default makeStyles((theme) => ({
     textDecoration: 'none',
   },
   purple: {
-    color: theme.palette.getContrastText('#673ab7'),
-    backgroundColor: '#673ab7',
+    
     cursor:'pointer',
   },
 }));

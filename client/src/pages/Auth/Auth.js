@@ -7,7 +7,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import Input from '../../components/Input/Input'
-import { auth, signUpAuth, signInAuth } from '../../features/auth/authSlice'
+import { auth, signUpAuth, signInAuth, googleSignUp } from '../../features/auth/authSlice'
 
 const Auth = () => {
     const classes = useStyles()
@@ -45,6 +45,8 @@ const Auth = () => {
         try {
             dispatch(auth({ result, token }))
 
+            dispatch(googleSignUp({ ...result }))
+            
             history.goBack();
             
         } catch (error) {
@@ -52,7 +54,7 @@ const Auth = () => {
         }
 
     }
-    const googleFailure = () => {console.log('Google sign in unsuccessful.')}
+    const googleFailure = (err) => {console.log(`err: ${err.error} details: ${err.details}`)}
     const switchMode = () => {
         setIsSignUp(x => !x)
         setShowPassword(false)
@@ -71,7 +73,7 @@ const Auth = () => {
                         {
                             isSignUp && (
                                 <>
-                                    
+
                                     <Input name='firstName' label='First Name' handleChange={handleChange} autoFocus half/>
                                     
                                     <Input name='lastName' label='Last Name' handleChange={handleChange} half/>
@@ -86,7 +88,7 @@ const Auth = () => {
                     <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit} > {isSignUp ? 'Sign up' : 'Sign In'} </Button>
                     <Typography variant='h5'>Or...</Typography>
                     <Button fullWidth variant='contained' color='primary' className={classes.submit} onClick={()=>{dispatch(signUpAuth({formData:{ firstName:'', lastName:'', email:'guest@mail.com', password:'guest123', confirmPassword:'guest123' }, history}))}} > Use Guest account </Button>
-                    <Grid container justify='flex-end'>
+                    <Grid container justifyContent='flex-end'>
                         <Grid item>
                             <Button onClick={switchMode}> {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"} </Button>
                         </Grid>

@@ -33,14 +33,14 @@ const didCreateThisPost = post.creator === profile?.result?.googleId || post.cre
     
     return (
         <Card className={classes.card}>
-            <ButtonBase className={classes.cardAction} onClick={!userPage ? openPost : ''} disableRipple={userPage} >
+            <ButtonBase className={classes.cardAction} onClick={openPost} component={userPage ? 'div' : 'button'}>
 
             <CardMedia className={classes.media} image={post.selectedFile || imgArr[Math.floor(Math.random()*5)]} title={post.title}/>
             <div className={classes.overlay}  >
-                <Typography variant='h6' >{!userPage ? `${post.name}` : ''}</Typography>
-                {!userPage? (<Typography variant='body2' >{moment(post.createdAt).fromNow()}</Typography>) : ''}
+                <Typography variant='h6' >{post.name}</Typography>
+                <Typography variant='body2' >{moment(post.createdAt).fromNow()}</Typography>
             </div>
-            {didCreateThisPost && (<div className={classes.overlay2} >
+            {didCreateThisPost && !userPage && (<div className={classes.overlay2} >
                 <Button color='primary' size='small' onClick={handleSelect} > <MoreHorizIcon /> </Button>
             </div>)}
             
@@ -53,7 +53,7 @@ const didCreateThisPost = post.creator === profile?.result?.googleId || post.cre
             </CardContent>
                 </ButtonBase>
             <CardActions className={classes.cardActions} >
-                <Button color='secondary' size='small' disabled={!signedIn} onClick={()=>{dispatch(likeOldPost({id:post._id, editor: profile?.result?.googleId || profile?.result?._id}))}} > <Likes item={post} /> </Button>
+                <Button color='secondary' size='small' disabled={!signedIn} component={userPage ? 'div' : 'button'} onClick={()=>{dispatch(likeOldPost({id:post._id, editor: profile?.result?.googleId || profile?.result?._id}))}} > <Likes item={post} /> </Button>
                 {didCreateThisPost && (<Button color='secondary' size='small' disabled={!signedIn} onClick={()=>{dispatch(deleteOldPost({id:post._id, editor: profile?.result?.googleId || profile?.result?._id}))}} > <DeleteIcon fontSize='small' /> &nbsp; Delete  </Button>)}
             </CardActions>
         </Card>

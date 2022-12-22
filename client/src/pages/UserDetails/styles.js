@@ -29,16 +29,26 @@ export default makeStyles((theme) => ({
         width:'100%',
         padding:'1.25rem',
         margin:'1rem .5rem',
-        cursor: 'pointer',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         backgroundBlendMode: 'darken',
         display: 'block',
         textAlign: 'center',
         borderRadius: '1rem',
         border: '1px solid #777',
+        boxSizing: 'border-box',
+        position: 'relative',
         [theme.breakpoints.down('450')]:{
             padding:'.75rem',
         },
+  },
+  deleteButton:{
+      position:'absolute',
+      top:'.5rem',
+      right:'.5rem',
+      transition:'transform .175s ease-in-out',
+      "&:hover":{
+        transform:'scale(1.25)',
+      },
   },
   dateText: {
         fontWeight:'600',
@@ -49,5 +59,20 @@ export default makeStyles((theme) => ({
       backgroundColor:'rgba(255,255,255,.1)',
       padding:'.5rem',
       borderRadius:'.25rem',
+      cursor:'pointer',
+  },
+  deleteAllGroup:{
+      display:'flex',
+      justifyContent:'space-between',
+      alignItems:'center',
+      marginLeft:'1rem',
+      flexWrap:'nowrap',
+      [theme.breakpoints.down('436')]:{
+            justifyContent:'center',
+            flexWrap:'wrap',
+            "& button:first-child":{
+                marginBottom:'1rem',
+            },
+        },
   }
 }))

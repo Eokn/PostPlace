@@ -1,6 +1,6 @@
-import {createMuiTheme} from '@material-ui/core/styles'
+import {createTheme} from '@material-ui/core/styles'
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     type:'dark'
     ,
@@ -23,7 +23,7 @@ const theme = createMuiTheme({
 
 export default theme
 
-/* Some colors for a dark theme darkest to lightest: #222, #282828, #333 #ccc (backgrounds and ccc is border) #fff, #bbb (text, subtext) */
+/* Some colors for a dark theme: #222, #282828, #333 #ccc (backgrounds and ccc is border) #fff, #bbb (text, subtext) */
 /* My two primary colors: 
     primary: {
       main: '#283593',
