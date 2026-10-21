@@ -5,7 +5,7 @@ Post Place is a social media application where users can make posts and interact
 ## How to run the app
 
 1. Fork or clone the github repo and open up the folder in the CLI
-2. Install all dependencies (Bring up 2 terminals, cd into client on one and server on the other, run 'npm i' in both.)
+2. Install all dependencies - run git clone --recursive with the listed github link at the top-right under 'Code'
 3. Hook up an empty MongoDB collection to the server and set a JWT secret, setting them to CONNECTION_URL and JWT_SECRET in an .env file in the server folder.
 - If you'd like to seed the database, run 'node dataSeeding' in the server directory.
 4. Connect your server to the clientside via .env files in client / server folders.
