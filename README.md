@@ -10,7 +10,7 @@ Post Place is a social media application where users can make posts and interact
 - If you'd like to seed the database, run 'node dataSeeding' in the server directory.
 4. Connect your server to the clientside via .env files in client / server folders.
 - Optionally connect a google OAuth clientID to the front end if it isn't too much trouble and/or you want the google login to work.
-5. Run the client and server locally via the npm start command.
+5. Run the client and server locally via the npm run dev command.
 6. Navigate to the URL you chose for the clientside and the app should be running.
 
 ## Features
